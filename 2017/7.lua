@@ -18,6 +18,7 @@ while true do
 	end
 	
 	pt.from = 0
+		pt.w = tonumber(pt.w)
 	
 	programs[pt.name] = pt
 end
@@ -42,17 +43,16 @@ function cpweight(n, depth, tree)
 	for _,chld in pairs(programs[n].prgs) do
 		fixedone = cpweight(chld, depth + 1, tree.." -> "..chld)
 		fixed = fixed or fixedone
-		programs[n].cw = math.tointeger(programs[n].cw + programs[chld].cw)
+		programs[n].cw = programs[n].cw + programs[chld].cw
 	end
 	
 	-- is it consistent?
 	-- note that the one that needs to be fixed is the deepest ... and so the first that we come across.
 	expw = nil
-	-- note that it happens to be that #1 is the right weight for me... but if it isn't for you, then you're in trouble
 	programs[n].balanced = true
 	bads = 0
 	for _,chld in ipairs(programs[n].prgs) do
-		chldw = math.tointeger(programs[chld].cw)
+		chldw = programs[chld].cw
 		if not expw then expw = chldw bads = 0
 		else
 			if expw ~= chldw then
@@ -72,7 +72,7 @@ function cpweight(n, depth, tree)
 	if not programs[n].balanced and not fixed then
 		print(n.." has cw "..programs[n].cw.." and "..#programs[n].prgs.." children, depth "..depth.." ("..tree..")".. (programs[n].balanced and "" or ", and is unbalanced"))
 		for _,chld in pairs(programs[n].prgs) do
-			chldw = math.tointeger(programs[chld].cw)
+			chldw = programs[chld].cw
 			if chldw ~= expw then
 				print("  and I blame "..chld..", which should weigh "..expw..", but weighs "..chldw)
 				print("  individual weight "..programs[chld].w..", fixed to be ---> "..programs[chld].w + expw - chldw)
