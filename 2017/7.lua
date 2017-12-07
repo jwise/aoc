@@ -18,7 +18,7 @@ while true do
 	end
 	
 	pt.from = 0
-		pt.w = tonumber(pt.w)
+	pt.w = tonumber(pt.w)
 	
 	programs[pt.name] = pt
 end
