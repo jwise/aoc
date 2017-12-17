@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 
 COUNT=2017
-STEP=337
+STEP=tonumber(arg[1])
 
 --COUNT=3
 --STEP=3
@@ -35,7 +35,6 @@ end
 paz = nil
 bsz = 1
 for i=1,50000000 do
-	if 
 	bpos = (bpos + STEP) % bsz
 	if bpos == 0 then paz = i end
 	bsz = bsz + 1
