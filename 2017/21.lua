@@ -1,4 +1,12 @@
-#!/usr/bin/env lua5
+#!/usr/bin/env luajit
+
+if bit then
+	BOR = bit.bor
+	BLSH = bit.lshift
+else
+	BOR = load("return function(a,b) return a | b end")()
+	BLSH = load("return function(a,b) return a << b end")()
+end
 
 rules2 = {}
 rules3 = {}
@@ -17,32 +25,42 @@ function mkpat(s)
 	return pat
 end
 
+function popcnt(pat)
+	local pop = 0
+	for k,v in ipairs(pat) do
+		for k2,v2 in ipairs(v) do
+			if v2 then pop = pop + 1 end
+		end
+	end
+	return pop
+end
+
+function pr(pat)
+	for k,v in ipairs(pat) do
+		s = ""
+		for k2,v2 in ipairs(v) do
+			s = s .. (v2 and "#" or ".")
+		end
+		print(s)
+	end
+end
+
 function inspat(rin, rout)
 	local insz = #rin
 	
 	function ins(fnx, fny)
-		local npat = {}
-		local good = true
-		
-		for py=1,insz do
-			local nr = {}
-			for px=1,insz do
-				table.insert(nr, false)
-			end
-			table.insert(npat, nr)
-		end
+		local patn = 0
 		
 		for py=1,insz do
 			for px=1,insz do
 				pyp = fny(px,py)
 				pxp = fnx(px,py)
 				
-				npat[py][px] = rin[pyp][pxp]
+				patn = BOR(patn, rin[pyp][pxp] and BLSH(1, (py-1)*insz+px-1) or 0)
 			end
 		end
 		
-		table.insert(insz == 2 and rules2 or rules3, {key = npat, val = rout})
-		return good
+		(insz == 2 and rules2 or rules3)[patn] = rout
 	end
 			
 	function insrots(fnx, fny)
@@ -66,25 +84,11 @@ while true do
 	inspat(mkpat(rin), mkpat(rout))
 end
 
-function popcnt(pat)
-	local pop = 0
-	for k,v in ipairs(pat) do
-		for k2,v2 in ipairs(v) do
-			if v2 then pop = pop + 1 end
-		end
-	end
-	return pop
-end
+-- check for table completeness
+for i=0,0xF do if not rules2[i] then print("WARNING: tables not complete: counterexample rules2["..i.."]") end end
+for i=0,0x1FF do if not rules3[i] then print("WARNING: tables not complete: counterexample rules3["..i.."]") end end
 
-function pr(pat)
-	for k,v in ipairs(pat) do
-		s = ""
-		for k2,v2 in ipairs(v) do
-			s = s .. (v2 and "#" or ".")
-		end
-		print(s)
-	end
-end
+
 
 st = mkpat(".#./..#/###")
 
@@ -132,19 +136,19 @@ for i=1,18 do
 			end
 			
 			local matched = false
-			for pno,pat in ipairs(insz == 2 and rules2 or rules3) do
-				pk = pat.key
-				pv = pat.val
-				if #pk == insz and check(pk) then
-					matched = true
-					for py = 1,outsz do
-						for px=1,outsz do
-							nst[outy+py-1][outx+px-1] = pv[py][px]
-						end
-					end
+			local patn = 0
+			for py=1,insz do
+				for px=1,insz do
+					patn = BOR(patn, st[y+py-1][x+px-1] and BLSH(1, (py-1)*insz+px-1) or 0)
 				end
 			end
-			if not matched then print("no match",x,y) end
+			local pv = (insz == 2 and rules2 or rules3)[patn]
+			if not pv then print("no match",x,y) end
+			for py = 1,outsz do
+				for px=1,outsz do
+					nst[outy+py-1][outx+px-1] = pv[py][px]
+				end
+			end
 			
 			outx = outx + outsz
 		end
