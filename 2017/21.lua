@@ -17,33 +17,43 @@ function mkpat(s)
 end
 
 function inspat(rin, rout)
-	function check(pat, fnx, fny)
+	local insz = #rin
+	
+	function ins(fnx, fny)
+		local npat = {}
 		local good = true
+		
+		for py=1,insz do
+			local nr = {}
+			for px=1,insz do
+				table.insert(nr, false)
+			end
+			table.insert(npat, nr)
+		end
 		
 		for py=1,insz do
 			for px=1,insz do
 				pyp = fny(px,py)
 				pxp = fnx(px,py)
 				
-				if pat[pyp][pxp] ~= st[y+py-1][x+px-1] then good = false end
+				npat[py][px] = rin[pyp][pxp]
 			end
 		end
+		
+		table.insert(rules, {key = npat, val = rout})
 		return good
 	end
 			
-			function checkrots(pat, fnx, fny)
-				return check(pat, function(x,y) return fnx(x,y) end, function(x,y) return fny(x,y) end) or -- no rotation
-				       check(pat, function(x,y) return insz-fnx(x,y)+1 end, function(x,y) return insz-fny(x,y)+1 end) or -- rotate 180
-				       check(pat, function(x,y) return fny(x,y) end, function(x,y) return insz-fnx(x,y)+1 end) -- rotate left 90
-			end
+	function insrots(fnx, fny)
+		ins(function(x,y) return fnx(x,y) end, function(x,y) return fny(x,y) end) -- no rotation
+		ins(function(x,y) return insz-fnx(x,y)+1 end, function(x,y) return insz-fny(x,y)+1 end) -- rotate 180
+		ins(function(x,y) return fny(x,y) end, function(x,y) return insz-fnx(x,y)+1 end) -- rotate left 90
+	end
 			
-			function checkflips(pat)
-				return checkrots(pat, function(x,y) return x end, function(x,y) return y end) or
-				       checkrots(pat, function(x,y) return y end, function(x,y) return x end) or -- flip over xy
-				       checkrots(pat, function(x,y) return insz-x+1 end, function(x,y) return y end) or -- flip over y
-				       checkrots(pat, function(x,y) return x end, function(x,y) return insz-y+1 end) -- flip over x
-			end
-
+	insrots(function(x,y) return x end, function(x,y) return y end) 
+	insrots(function(x,y) return y end, function(x,y) return x end) -- flip over xy
+	insrots(function(x,y) return insz-x+1 end, function(x,y) return y end) -- flip over y
+	insrots(function(x,y) return x end, function(x,y) return insz-y+1 end) -- flip over x
 end
 
 while true do
@@ -52,7 +62,7 @@ while true do
 
 	local rin,rout = l:match("(%S+) => (%S+)")
 	
-	table.insert(rules, {key = mkpat(rin), val = mkpat(rout)})
+	inspat(mkpat(rin), mkpat(rout))
 end
 
 function popcnt(pat)
@@ -109,38 +119,22 @@ for i=1,18 do
 		local outx = 1
 		for x=1,#st,insz do
 			-- now check the rules at (x, y), see if we find one
-			function check(pat, fnx, fny)
+			function check(pat)
 				local good = true
 				
 				for py=1,insz do
 					for px=1,insz do
-						pyp = fny(px,py)
-						pxp = fnx(px,py)
-						
-						if pat[pyp][pxp] ~= st[y+py-1][x+px-1] then good = false end
+						if pat[py][px] ~= st[y+py-1][x+px-1] then good = false end
 					end
 				end
 				return good
-			end
-			
-			function checkrots(pat, fnx, fny)
-				return check(pat, function(x,y) return fnx(x,y) end, function(x,y) return fny(x,y) end) or -- no rotation
-				       check(pat, function(x,y) return insz-fnx(x,y)+1 end, function(x,y) return insz-fny(x,y)+1 end) or -- rotate 180
-				       check(pat, function(x,y) return fny(x,y) end, function(x,y) return insz-fnx(x,y)+1 end) -- rotate left 90
-			end
-			
-			function checkflips(pat)
-				return checkrots(pat, function(x,y) return x end, function(x,y) return y end) or
-				       checkrots(pat, function(x,y) return y end, function(x,y) return x end) or -- flip over xy
-				       checkrots(pat, function(x,y) return insz-x+1 end, function(x,y) return y end) or -- flip over y
-				       checkrots(pat, function(x,y) return x end, function(x,y) return insz-y+1 end) -- flip over x
 			end
 			
 			local matched = false
 			for pno,pat in ipairs(rules) do
 				pk = pat.key
 				pv = pat.val
-				if #pk == insz and checkflips(pk) then
+				if #pk == insz and check(pk) then
 					matched = true
 					for py = 1,outsz do
 						for px=1,outsz do
