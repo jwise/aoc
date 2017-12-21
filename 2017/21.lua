@@ -1,6 +1,7 @@
 #!/usr/bin/env lua5
 
-rules = {}
+rules2 = {}
+rules3 = {}
 
 function mkpat(s)
 	local pat = {}
@@ -40,7 +41,7 @@ function inspat(rin, rout)
 			end
 		end
 		
-		table.insert(rules, {key = npat, val = rout})
+		table.insert(insz == 2 and rules2 or rules3, {key = npat, val = rout})
 		return good
 	end
 			
@@ -131,7 +132,7 @@ for i=1,18 do
 			end
 			
 			local matched = false
-			for pno,pat in ipairs(rules) do
+			for pno,pat in ipairs(insz == 2 and rules2 or rules3) do
 				pk = pat.key
 				pv = pat.val
 				if #pk == insz and check(pk) then
