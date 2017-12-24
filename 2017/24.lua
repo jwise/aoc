@@ -16,6 +16,9 @@ while true do
 	table.insert(parts[part.pa], part)
 	if not parts[part.pb] then parts[part.pb] = {} end
 	table.insert(parts[part.pb], part)
+	
+	part[part.pa] = part.pb
+	part[part.pb] = part.pa
 end
 
 function maxstr(pins)
@@ -23,16 +26,10 @@ function maxstr(pins)
 	
 	for _,part in pairs(parts[pins]) do
 --		print(part.pa, part.pb, pins)
-		if not part.used and part.pa == pins then
+		if not part.used then
 			part.used = true
-			local str = part.pa + part.pb
-			str = str + maxstr(part.pb)
-			if str > max then max = str end
-			part.used = false
-		elseif not part.used and part.pb == pins then
-			part.used = true
-			local str = part.pa + part.pb
-			str = str + maxstr(part.pa)
+			local str = part[pins] + pins
+			str = str + maxstr(part[pins])
 			if str > max then max = str end
 			part.used = false
 		end
@@ -46,10 +43,10 @@ function maxlong(pins)
 	local maxl, maxs = 0, 0
 	
 	for _,part in pairs(parts[pins]) do
-		if not part.used and part.pa == pins then
+		if not part.used then
 			part.used = true
-			local str = part.pa + part.pb
-			local nlong, nstr = maxlong(part.pb)
+			local str = part[pins] + pins
+			local nlong, nstr = maxlong(part[pins])
 			nlong = nlong + 1
 			nstr = str + nstr
 			if nlong == maxl then
@@ -57,19 +54,6 @@ function maxlong(pins)
 			elseif nlong > maxl then
 				maxl, maxs = nlong, nstr
 			end
-			part.used = false
-		elseif not part.used and part.pb == pins then
-			part.used = true
-			local str = part.pa + part.pb
-			local nlong, nstr = maxlong(part.pa)
-			nlong = nlong + 1
-			nstr = str + nstr
-			if nlong == maxl then
-				if nstr > maxs then maxs = nstr end
-			elseif nlong > maxl then
-				maxl, maxs = nlong, nstr
-			end
-
 			part.used = false
 		end
 	end
