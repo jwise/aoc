@@ -12,13 +12,16 @@ while true do
 	part.pb = tonumber(pb)
 	part.used = false
 	
-	table.insert(parts, part)
+	if not parts[part.pa] then parts[part.pa] = {} end
+	table.insert(parts[part.pa], part)
+	if not parts[part.pb] then parts[part.pb] = {} end
+	table.insert(parts[part.pb], part)
 end
 
 function maxstr(pins)
 	local max = 0
 	
-	for _,part in pairs(parts) do
+	for _,part in pairs(parts[pins]) do
 --		print(part.pa, part.pb, pins)
 		if not part.used and part.pa == pins then
 			part.used = true
@@ -42,7 +45,7 @@ print(maxstr(0))
 function maxlong(pins)
 	local maxl, maxs = 0, 0
 	
-	for _,part in pairs(parts) do
+	for _,part in pairs(parts[pins]) do
 		if not part.used and part.pa == pins then
 			part.used = true
 			local str = part.pa + part.pb
