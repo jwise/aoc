@@ -103,17 +103,8 @@ function tick_cart(cart)
 end
 
 function tick()
-	cartsmove = {}
-	for y=1,#map do
-		for x = 1,#(map[y]) do
-			for n,cart in ipairs(carts) do
-				if cart.y == y and cart.x == x then
-					table.insert(cartsmove, cart)
-				end
-			end
-		end
-	end
-	for _,cart in ipairs(cartsmove) do
+	table.sort(carts, function(a,b) return a.y < b.y or (a.y == b.y and a.x < b.x) end)
+	for _,cart in ipairs(carts) do
 		local collide,cx,cy = tick_cart(cart)
 		if collide then return true,cx,cy end
 	end
