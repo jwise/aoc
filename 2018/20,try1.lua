@@ -57,12 +57,15 @@ nrooms = 0
 ndoors = 0
 maxd = 0
 function walk(tree, x, y, d)
+	if not tree.visited then tree.visited = {} end
+	if not tree.visited[y] then tree.visited[y] = {} end
+	if tree.visited[y][x] then return end
+	tree.visited[y][x] = true
 	if tree.empty then
 		return walk(tree.next, x, y, d)
 	elseif tree.choices then
 		if d > maxd then
 			maxd = d
-			print("..."..d, #tree.choices)
 		end
 		for _,t2 in ipairs(tree.choices) do
 			walk(t2, x, y, d+1)
@@ -121,6 +124,7 @@ function dist()
 	end
 
 	local furthest = map[0][0]
+	local further1k = 0
 	table.insert(q, {x = 0, y = 0})
 	-- now find the furthest
 	while #q ~= 0 do
@@ -128,6 +132,7 @@ function dist()
 		local r = map[xy.y][xy.x]
 		if not r.visited then
 			if r.dist > furthest.dist then furthest = r end
+			if r.dist >= 1000 then further1k = further1k + 1 end
 			r.visited = true
 			function try(y,x)
 				if r.doors[y][x] and map[xy.y+y] and map[xy.y+y][xy.x+x] then
@@ -141,8 +146,7 @@ function dist()
 		end
 	end
 	
-	return furthest
+	return furthest.dist, further1k
 end
 
-f = dist()
-print(f.dist, f.x, f.y)
+print(dist())
