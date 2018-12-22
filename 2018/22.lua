@@ -26,7 +26,7 @@ CLIMBING = {}
 NEITHER = {}
 
 ROCKY = {r = 0, c = ".", tools = { [CLIMBING] = true, [TORCH] = true }}
-WET = {r = 1, c= "=", tools = {[CLIMBING] = true, [NEITHER] = true}}
+WET = {r = 1, c = "=", tools = {[CLIMBING] = true, [NEITHER] = true}}
 NARROW = {r = 2, c = "|", tools = {[TORCH] = true, [NEITHER] = true}}
 function tipo(x,y)
 	local v = erosionlvl(x, y)
@@ -49,70 +49,68 @@ print(sum)
 
 -- strategy is: flood fill from [y][x][tool] to get to [ty][tx][torch], go up to [-1000:1000][-1000:1000]
 local map = {}
+local unvis = {}
 
-function ensure(y,x,tool)
+function gmap(y,x,tool)
 	if not map[y] then map[y] = {} end
 	if not map[y][x] then map[y][x] = {} end
-	if not map[y][x][tool] then map[y][x][tool] = function () return math.huge end end
-end
-
-local MAXSCORE = 1003
-
---function incr(y,x,t,n)
---	return function() return map[y][x][t]()+n end
---end
-function incr(y,x,t,n)
-	local m = map[y][x][t]()+n
-	return function() return m end
-end
-
-function heuristic_max(y, x)
-	return (y + x) * 2 + 100
+	if not map[y][x][tool] then map[y][x][tool] = { y = y, x = x, tool = tool, dist = math.huge, vis = false } end
+	return map[y][x][tool]
 end
 
 function flood()
-	local toflood = {}
-	table.insert(toflood, {x = 0, y = 0, tool = TORCH, time = function () return 0 end})
 	local steps = 0
-	ensure(ty, tx, TORCH)
-	while #toflood ~= 0 do
-		local cur = table.remove(toflood)
-		ensure(cur.y, cur.x, cur.tool)
+	gmap(0,0,TORCH).dist = 0
+	local cur = map[0][0][TORCH]
+	while cur.x ~= tx or cur.y ~= ty or cur.tool ~= TORCH do
 		steps = steps + 1
-		local t = cur.time()
- 			if steps % 100000 == 0 then
-			print(cur.y..","..cur.x, map[cur.y][cur.x][cur.tool](), cur.time(), #toflood,map[ty][tx][TORCH]())
-			end
-		if map[cur.y][cur.x][cur.tool]() > t
---		and t < heuristic_max(cur.y, cur.x)
-		and t < MAXSCORE
---		and t < map[ty][tx][TORCH]()
- then
-			map[cur.y][cur.x][cur.tool] = cur.time
-			
-			function try(y,x)
-				y = cur.y + y
-				x = cur.x + x
-				if y > (ty + 20) or y < 0 then return end
-				if x > (tx + 20) or x < 0 then return end
-				if not tipo(y, x).tools[cur.tool] then return end
-				table.insert(toflood, {x = x, y = y, tool = cur.tool, time = incr(cur.y, cur.x, cur.tool, 1)})
-			end
-			try(-1,0)
-			try(1,0)
-			try(0,1)
-			try(0,-1)
-			
-			function trytool(tool)
-				if cur.tool == tool or not tipo(cur.y,cur.x).tools[tool] then return end
-				table.insert(toflood, {x = cur.x, y = cur.y, tool = tool, time = incr(cur.y, cur.x, cur.tool, 7)})
-			end
-			trytool(TORCH)
-			trytool(CLIMBING)
-			trytool(NEITHER)
+		if steps % 10000 == 0 then io.write("... "..cur.dist.."\r") io.flush() end
+		
+		function try(y,x)
+			y = cur.y + y
+			x = cur.x + x
+			if y < 0 or x < 0 then return end
+			if x > tx * 15 or y > ty * 15 then return end
+			if not tipo(x, y).tools[cur.tool] then return end
+			local m = gmap(y, x, cur.tool)
+			local dprop = cur.dist + 1
+			if m.vis then assert(m.dist <= dprop) return end
+			if dprop < m.dist then m.dist = dprop end
+			unvis[m] = true
 		end
+
+		try(-1,0)
+		try(1,0)
+		try(0,1)
+		try(0,-1)
+		
+		function trytool(tool)
+			if cur.tool == tool or not tipo(cur.x,cur.y).tools[tool] then return end
+			local m = gmap(cur.y, cur.x, tool)
+			local dprop = cur.dist + 7
+			if m.vis then assert(m.dist <= dprop) return end
+			if dprop < m.dist then m.dist = dprop end
+			unvis[m] = true
+		end
+		trytool(TORCH)
+		trytool(CLIMBING)
+		trytool(NEITHER)
+		
+		cur.vis = true
+		unvis[cur] = nil
+		
+		-- now find a new cur
+		local lowest = nil
+		local lowestv = math.huge
+		for k,_ in pairs(unvis) do
+			if k.dist < lowestv then
+				lowest = k
+				lowestv = k.dist
+			end
+		end
+		cur = lowest
 	end
 end
 
 flood()
-print(map[ty][tx][TORCH]())
+print("dist: "..map[ty][tx][TORCH].dist)
