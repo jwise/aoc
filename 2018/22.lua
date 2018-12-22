@@ -53,24 +53,41 @@ local map = {}
 function ensure(y,x,tool)
 	if not map[y] then map[y] = {} end
 	if not map[y][x] then map[y][x] = {} end
-	if not map[y][x][tool] then map[y][x][tool] = math.huge end
+	if not map[y][x][tool] then map[y][x][tool] = function () return math.huge end end
 end
 
-local MAXSCORE = ty + tx + ((ty + tx) / 4) * 7
+local MAXSCORE = 1003
+
+--function incr(y,x,t,n)
+--	return function() return map[y][x][t]()+n end
+--end
+function incr(y,x,t,n)
+	local m = map[y][x][t]()+n
+	return function() return m end
+end
+
+function heuristic_max(y, x)
+	return (y + x) * 2 + 100
+end
 
 function flood()
 	local toflood = {}
-	table.insert(toflood, {x = 0, y = 0, tool = TORCH, time = 0})
+	table.insert(toflood, {x = 0, y = 0, tool = TORCH, time = function () return 0 end})
 	local steps = 0
 	ensure(ty, tx, TORCH)
 	while #toflood ~= 0 do
 		local cur = table.remove(toflood)
 		ensure(cur.y, cur.x, cur.tool)
 		steps = steps + 1
-		if steps % 100000 == 0 then print(cur.y, cur.x, cur.time, #toflood) end
-		if map[cur.y][cur.x][cur.tool] > cur.time
-		and cur.time < MAXSCORE
-		and cur.time < map[ty][tx][TORCH] then
+		local t = cur.time()
+ 			if steps % 100000 == 0 then
+			print(cur.y..","..cur.x, map[cur.y][cur.x][cur.tool](), cur.time(), #toflood,map[ty][tx][TORCH]())
+			end
+		if map[cur.y][cur.x][cur.tool]() > t
+--		and t < heuristic_max(cur.y, cur.x)
+		and t < MAXSCORE
+--		and t < map[ty][tx][TORCH]()
+ then
 			map[cur.y][cur.x][cur.tool] = cur.time
 			
 			function try(y,x)
@@ -79,7 +96,7 @@ function flood()
 				if y > (ty + 20) or y < 0 then return end
 				if x > (tx + 20) or x < 0 then return end
 				if not tipo(y, x).tools[cur.tool] then return end
-				table.insert(toflood, {x = x, y = y, tool = cur.tool, time = cur.time + 1})
+				table.insert(toflood, {x = x, y = y, tool = cur.tool, time = incr(cur.y, cur.x, cur.tool, 1)})
 			end
 			try(-1,0)
 			try(1,0)
@@ -88,7 +105,7 @@ function flood()
 			
 			function trytool(tool)
 				if cur.tool == tool or not tipo(cur.y,cur.x).tools[tool] then return end
-				table.insert(toflood, {x = cur.x, y = cur.y, tool = tool, time = cur.time + 7})
+				table.insert(toflood, {x = cur.x, y = cur.y, tool = tool, time = incr(cur.y, cur.x, cur.tool, 7)})
 			end
 			trytool(TORCH)
 			trytool(CLIMBING)
@@ -98,4 +115,4 @@ function flood()
 end
 
 flood()
-print(map[ty][tx][TORCH])
+print(map[ty][tx][TORCH]())
