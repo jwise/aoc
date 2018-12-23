@@ -1,0 +1,6 @@
+(maximize (inrange x y z))
+(minimize (dist 0 0 0 x y z))
+(check-sat)
+(get-model)
+(eval (dist 0 0 0 x y z))
+

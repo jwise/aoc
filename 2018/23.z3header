@@ -1,0 +1,13 @@
+(declare-const x Int)
+(declare-const y Int)
+(declare-const z Int)
+
+(define-fun abs ((v Int)) Int
+ (if (> v 0)
+     v
+     (- 0 v)))
+
+(define-fun dist ((x1 Int) (y1 Int) (z1 Int) (x2 Int) (y2 Int) (z2 Int)) Int
+ (+ (abs (- x1 x2))
+    (abs (- y1 y2))
+    (abs (- z1 z2))))
