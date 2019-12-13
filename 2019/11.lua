@@ -148,8 +148,6 @@ function run(arr,grid)
 	while not st.done do
 		step(st)
 		if #ofif == 2 then
-			print(ofif[1], ofif[2])
-			
 			local color = table.remove(ofif, 1)
 			local ndir = table.remove(ofif, 1)
 			
