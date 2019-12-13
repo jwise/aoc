@@ -165,25 +165,29 @@ function trysetting(arr,a,b,c,d,e)
 			else
 				if not screen[y] then screen[y] = {} end
 				screen[y][x] = id
+				
+				if id == 3 then px = x
+				elseif id == 4 then bx = x
+				end
 			end
 		end
 		
 		if st.blocked or st.done then
-			px = 0
-			bx = 0
-			for y,r in pairs(screen) do
-				local s = ""
-				for x,c in pairs(r) do
-					if c == 1 then s = s .. "W"
-					elseif c == 2 then s = s .. "#"
-					elseif c == 3 then s = s .. "-" px = x
-					elseif c == 4 then s = s .. "*" bx = x
-					else s = s .. " "
+			if arg[1] then
+				for y,r in pairs(screen) do
+					local s = ""
+					for x,c in pairs(r) do
+						if c == 1 then s = s .. "W"
+						elseif c == 2 then s = s .. "#"
+						elseif c == 3 then s = s .. "-" px = x
+						elseif c == 4 then s = s .. "*" bx = x
+						else s = s .. " "
+						end
 					end
+					print(s)
 				end
-				if arg[1] then print(s) end
+				print(score)
 			end
-			if arg[1] then print(score) end
 			
 			if st.blocked then
 				if arg[1] then print("BLOCKED", steps, px, bx) end
