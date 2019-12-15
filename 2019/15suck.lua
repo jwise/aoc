@@ -212,25 +212,16 @@ while #exq > 0 do
 		set(explored,ex_pos.y,ex_pos.x,true)
 	
 		-- now navigate to the space, by backing up from curpos and going into expos
-		local invops = {}
-		local diverged = nil
-		for i=1,#curpos do
-			if curpos[i] ~= ex[i] and not diverged then diverged = i end
-			if diverged then table.insert(invops, 1, dirs[curpos[i]].dual) end
-		end
-		
-		for _,d in ipairs(invops) do
-			table.insert(ifif, d)
-		end
-		
+		ifif = {}
+		ofif = {}
+		local st = { mem = memdup(arr), ifif = ifif, ofif = ofif, pc = 0, done = false, blocked = false }
+
 		-- now ifif has backed up ... time to go forwards
-		if not diverged then diverged = #curpos+1 end
-		for i=diverged,#ex do
+		for i=1,#ex do
 			table.insert(ifif, ex[i])
 		end
 		
 		-- now, run it
-		step(st)
 		while not st.blocked do
 			step(st)
 		end
@@ -268,18 +259,10 @@ haso2 = {}
 set(haso2,oxygenxy.y,oxygenxy.x, 0)
 did_work = true
 time = 0
-miny = 0
-maxy = 0
-minx = 0
-maxx = 0
 while did_work do
 	did_work = false
 	for y,r in pairs(haso2) do
-		if y < miny then miny = y end
-		if y > maxy then maxy = y end
 		for x,v in pairs(r) do
-			if x < minx then minx = x end
-			if x > maxx then maxx = x end
 			if v == time then
 				if not get(wall,y  ,x+1) and not get(haso2,y  ,x+1) then set(haso2,y  ,x+1,time+1) did_work = true end
 				if not get(wall,y  ,x-1) and not get(haso2,y  ,x-1) then set(haso2,y  ,x-1,time+1) did_work = true end
@@ -292,10 +275,3 @@ while did_work do
 end
 
 print(time)
-for y=miny-1,maxy+1 do
-	s = ""
-	for x = minx-1,maxx+1 do
-		s = s .. ((get(wall,y,x) and "#") or (oxygenxy.y == y and oxygenxy.x == x and "O") or ".")
-	end
-	print(s)
-end
