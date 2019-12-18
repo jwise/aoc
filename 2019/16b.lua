@@ -26,9 +26,10 @@ function iter(seq)
 		-- A new basis number 'b' is a multiple of a prime with some
 		-- other previous basis, 'b0'.  Find the highest possible b0.
 		local b0 = 1
-		for b0p = 1,b-1 do
+		for b0p = 2,b-1 do
 			if b % b0p == 0 then
-				b0 = b0p
+				b0 = b / b0p
+				break
 			end
 		end
 		
