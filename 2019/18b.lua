@@ -29,6 +29,11 @@ while true do
 	table.insert(map, r)
 end
 
+map[starty-1][startx  ] = "#"
+map[starty+1][startx  ] = "#"
+map[starty  ][startx-1] = "#"
+map[starty  ][startx+1] = "#"
+
 function set(a,y,x,v) if not a[y] then a[y] = {} end a[y][x] = v end
 function get(a,y,x  ) if not a[y] then a[y] = {} end return a[y][x] end
 
@@ -45,6 +50,9 @@ local availmem = {}
 function availkeys(map,yn,xn,passable)
 	passable["."] = true
 	passable["@"] = true
+
+	local vposs = memoize(availmem,yn,xn,passable)
+	if vposs then return vposs end
 
 	local keys = {}
 	local visited = {}
@@ -65,11 +73,24 @@ function availkeys(map,yn,xn,passable)
 	end
 	dfs(yn, xn, 0)
 	
+	memoize(availmem,yn,xn,passable,keys)
 	return keys
 end
 
+function memoize_rs(mem,rs,keys,v)
+	local s = ""
+	for _,r in ipairs(rs) do
+		s = s .. r.y .. "," .. r.x .. ","
+	end
+	for k,v in pairs(allkeys) do
+		if keys[k] then s = s .. k end
+	end
+	if mem[s] then return mem[s] end
+	if v then mem[s] = v end
+end
+
 local shortmem = {}
-function shortest(y,x,keys)
+function shortest(rs,keys,d)
 	keys["@"] = true
 	keys["."] = true
 	
@@ -81,10 +102,17 @@ function shortest(y,x,keys)
 	end
 	if hasall then return 0,"" end
 
-	local vposs = memoize(shortmem,y,x,keys)
+	local vposs = memoize_rs(shortmem,rs,keys)
 	if vposs then return vposs.a,vposs.b end
 
-	local options = availkeys(map,y,x,keys)
+	local options = {}
+	for rn,r in ipairs(rs) do
+		local roptions = availkeys(map,r.y,r.x,keys)
+		for k,v in pairs(roptions) do
+			options[k] = { x = v.x, y = v.y, dist = v.dist, r = rn }
+		end
+	end
+	if d == 0 then print(#options) end
 	
 	-- try all the options and see which is shortest
 	local bestdist = 9999999
@@ -99,8 +127,18 @@ function shortest(y,x,keys)
 		end
 		
 		newkeys[key] = true
-		local sh,c = shortest(params.y, params.x, newkeys)
+		
+		local oldrx = rs[params.r].x
+		local oldry = rs[params.r].y
+		
+		rs[params.r].x = params.x
+		rs[params.r].y = params.y
+		
+		local sh,c = shortest(rs, newkeys, d+1)
 		local ndist = params.dist + sh
+		
+		rs[params.r].x = oldrx
+		rs[params.r].y = oldry
 		
 		if ndist < bestdist or (ndist == bestdist and params.dist < bestpdist) then
 			bestdist = ndist
@@ -109,7 +147,15 @@ function shortest(y,x,keys)
 		end
 	end
 	
-	memoize(shortmem,y,x,keys,{a = bestdist, b = bestc})
+	memoize_rs(shortmem,rs,keys,{a = bestdist, b = bestc})
 	return bestdist, bestc
 end
-print(shortest(starty, startx, {}, ""))
+
+local rs = {
+	{ x = startx - 1, y = starty - 1 },
+	{ x = startx - 1, y = starty + 1 },
+	{ x = startx + 1, y = starty - 1 },
+	{ x = startx + 1, y = starty + 1 }
+}
+
+print(shortest(rs, {}, 0))
