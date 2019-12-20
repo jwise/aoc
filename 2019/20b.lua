@@ -24,7 +24,6 @@ for y,r in ipairs(map) do
 	if y > my then my = y end
 	for x,c in ipairs(r) do
 		if x > mx then mx = x end
-		if (c == "Z") then print(y,x) end
 		if isalpha(c) then
 			if isalpha(map[y][x]) and map[y-1] and isalpha(map[y-1][x]) and map[y+1] and ismap(map[y+1][x]) then
 				local portal = map[y-1][x] .. map[y][x]
@@ -65,17 +64,23 @@ visited = {}
 
 function bfs(y,x,ty,tx)
 	local q = {}
+	local dist = -1
 	
-	table.insert(q, {x=x,y=y,dist=0,lvl=0})
+	function insert(y,x,lvl)
+		if map[y] and (map[y][x] == "." or type(map[y][x]) == "table") and not get(visited,y,x,lvl) then
+			table.insert(q, { x = x, y = y, dist = dist + 1, lvl = lvl })
+		end
+	end
+	
+	insert(y,x,0)
 	while #q > 0 do
 		local qe = table.remove(q, 1)
-		local y,x,dist,lvl = qe.y, qe.x, qe.dist, qe.lvl
+		local y,x,lvl = qe.y, qe.x, qe.lvl
+		dist = qe.dist
 		
 		if y == ty and x == tx and lvl == 0 then return dist end
 
-		if map[y] and 
-		   (map[y][x] == "." or type(map[y][x]) == "table") and
-		   not get(visited,y,x,lvl) then
+		if not get(visited,y,x,lvl) then
 			set(visited,y,x,lvl,true)
 			if type(map[y][x]) == "table" then
 				local outer = (isalpha(map[y-1][x]) and y < (my / 2)) or
@@ -83,15 +88,15 @@ function bfs(y,x,ty,tx)
 				              (isalpha(map[y][x-1]) and x < (mx / 2)) or
 				              (isalpha(map[y][x+1]) and x > (mx / 2))
 				if outer and lvl > 0 then
-					table.insert(q, {x = map[y][x].x, y = map[y][x].y, dist = dist + 1, lvl = lvl - 1})
+					insert(map[y][x].y, map[y][x].x, lvl - 1)
 				elseif not outer then
-					table.insert(q, {x = map[y][x].x, y = map[y][x].y, dist = dist + 1, lvl = lvl + 1})
+					insert(map[y][x].y, map[y][x].x, lvl + 1)
 				end
 			end
-			table.insert(q, {x = x  , y = y+1, dist = dist+1,lvl=lvl})
-			table.insert(q, {x = x  , y = y-1, dist = dist+1,lvl=lvl})
-			table.insert(q, {x = x+1, y = y  , dist = dist+1,lvl=lvl})
-			table.insert(q, {x = x-1, y = y  , dist = dist+1,lvl=lvl})
+			insert(y+1, x  , lvl)
+			insert(y-1, x  , lvl)
+			insert(y  , x+1, lvl)
+			insert(y  , x-1, lvl)
 		end
 	end
 	return "LOL"
