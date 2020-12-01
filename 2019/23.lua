@@ -163,6 +163,10 @@ for i=0,49 do
 	table.insert(sts, st)
 end
 
+if arg[1] == "fu" then
+	table.insert(sts[1].ifif, -1)
+end
+
 while true do
 	for n,st in ipairs(sts) do
 		if #st.inpq > 0 then
@@ -171,7 +175,9 @@ while true do
 			table.insert(st.ifif, inp.y)
 		end
 		if st.blocked and #st.ifif == 0 then
-			table.insert(st.ifif, -1)
+			if arg[1] ~= "fu" then
+				table.insert(st.ifif, -1)
+			end
 		end
 		
 		step(st)

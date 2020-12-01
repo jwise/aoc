@@ -60,11 +60,10 @@ end
 function set(a,y,x,d,v) if not a[y] then a[y] = {} end if not a[y][x] then a[y][x] = {} end a[y][x][d] = v end
 function get(a,y,x,d  ) if not a[y] then a[y] = {} end if not a[y][x] then a[y][x] = {} end return a[y][x][d] end
 
-visited = {}
-
 function bfs(y,x,ty,tx)
 	local q = {}
 	local dist = -1
+	local visited = {}
 	
 	function insert(y,x,lvl)
 		if map[y] and (map[y][x] == "." or type(map[y][x]) == "table") and not get(visited,y,x,lvl) then
