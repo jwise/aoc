@@ -1,0 +1,44 @@
+bags = {}
+while true do
+	line = io.read("*line")
+	if not line then break end
+	
+	local bag = {}
+	
+	color,contains = line:match("(.-) bags contain (.-)%.")
+	print(color,contains)
+	if contains == "no other bags" then
+	else
+		for m in contains:gmatch("%d+ .- bags?") do
+			local count,contained = m:match("(%d+) (.-) bags?")
+			print(count, contained)
+			bag[contained] = count
+		end
+	end
+	bags[color] = bag
+end
+
+canhold = {}
+for outcol,contents in pairs(bags) do
+	for incol,_ in pairs(contents) do
+		canhold[incol] = canhold[incol] or {}
+		canhold[incol][outcol] = true
+	end
+end
+
+contains = {}
+function iter(wantcol)
+	if not canhold[wantcol] then return end
+	for incol,_ in pairs(canhold[wantcol]) do
+		contains[incol] = true
+		iter(incol)
+	end
+end
+iter("shiny gold")
+
+count = 0
+for k,v in pairs(contains) do
+	print(k)
+	count = count + 1
+end
+print(count)
