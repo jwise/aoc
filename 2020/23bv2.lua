@@ -19,23 +19,6 @@ function inscup(c)
 	if c == 0 then abort() end
 end
 
-function unlinkcup(c)
-	c.prev.next = c.next
-	c.next.prev = c.prev
-	c.prev = nil
-	c.next = nil
-	return c -- convenience
-end
-
-function putafter(c1, c2)
-	assert(c2.prev == nil)
-	assert(c2.next == nil)
-	c1.next.prev = c2
-	c2.next = c1.next
-	c1.next = c2
-	c2.prev = c1
-end
-
 local nsz = 0
 for c in ln:gmatch(".") do
 	inscup(tonumber(c))
@@ -50,9 +33,10 @@ local ccup = cups.head
 function move()
 	local pick1, pick2, pick3
 	
-	local pick1 = unlinkcup(ccup.next) --print(pick1.val, ccup.next.val)
-	local pick2 = unlinkcup(ccup.next) --print(pick2.val, ccup.next.val)
-	local pick3 = unlinkcup(ccup.next) --print(pick3.val, ccup.next.val)
+	local pick1 = ccup.next --print(pick1.val, ccup.next.val)
+	local pick2 = pick1.next
+	local pick3 = pick2.next
+	ccup.next = pick3.next
 	
 	local dcupn = ccup.val
 	repeat
@@ -62,9 +46,10 @@ function move()
 	
 	local dcup = cups.ns[dcupn]
 	
-	putafter(dcup, pick3)
-	putafter(dcup, pick2)
-	putafter(dcup, pick1)
+	pick1.next = pick2
+	pick2.next = pick3
+	pick3.next = dcup.next
+	dcup.next = pick1
 
 	ccup = ccup.next
 end
