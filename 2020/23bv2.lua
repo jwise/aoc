@@ -1,19 +1,20 @@
 NCUPS = tonumber(arg[1]) or 9
 NMOVES = tonumber(arg[2]) or 100
 
+collectgarbage("stop")
+
 local ln = io.read("*line")
 local cups = {head = nil, tail = nil, ns = {}}
 function inscup(c)
-	local cup = { val = c, prev = nil, next = nil }
+	local cup = { val = c, next = nil }
 	if not cups.head then
 		cup.next = cup
-		cup.prev = cup
 		cups.head = cup
+		cups.tail = cup
 	else
-		cup.prev = cups.head.prev
+		cups.tail.next = cup
+		cups.tail = cup
 		cup.next = cups.head
-		cups.head.prev.next = cup
-		cups.head.prev = cup
 	end
 	cups.ns[c] = cup
 	if c == 0 then abort() end
