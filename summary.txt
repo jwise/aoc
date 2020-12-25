@@ -1,0 +1,395 @@
+This document may contain spoilers.
+
+* is a good problem.
+** is a GREAT problem.
+! is a problem that shall live in infamy.
+->||<- is a problem that is "so close" to being good.
+"AoC" is a problem that is "a canonical Advent" problem.
+++ is a problem that I did some "upping the ante" on.
+
+===== 2020 =====
+
+1: Find some pairs.
+
+2: Validate some input with provided business logic.
+
+3: Iterate through a grid.
+
+4: Parse and validate some input with provided business logic.
+
+   "AoC": This is maybe an archetypical AoC parsing problem.
+
+5: Have the insight that the input is binary.  Find the missing element.
+
+6: Do some set arithmetic.
+
+7: Traverse a graph, in two directions.
+
+8: Implement a small bytecode interpreter.  Do some operations on the
+   bytecode.
+
+9: Iterate through some ranges.
+
+10: Count the number of leaves on a very large tree with some repeated
+    components.  (Requires memoization.  See 2017/24.)
+
+11: Implement a small cellular automaton.  Change the rules to do some grid
+    operations.
+
+12: Implement some Manhattan-grid operations.  Implement some different
+    variations.
+
+13: Do some modular arithmetic.  Implement the Chinese Remainder Theorem.
+
+14: Implement some ranges in a sparse array.
+
+    ->||<-: The input is very weak, and does not fill many elements of the
+            sparse array.  If the input were stronger, the problem would be
+            very very interesting and require nontrivial insights to solve.
+
+15: Implement a sequence with lookback rules.
+
+16: Parse some input.  Constraint-solve to assign some parameters to some
+    number of data fields.  (See 2018/16.)
+
+17: Implement a 3D cellular automaton.  Gotcha!  Implement a 4D cellular
+    automaton.
+
+18: Implement an infix parser with unusual precedence.  Change the
+    precedence for part 2.
+
+19: Parse a grammar specification.  Then parse some input based on the
+    parsed grammar.  Modify the parsed grammar to be recursive (with
+    sufficiently weak input that you can get away with not fully
+    implementing a parser).
+
+    "AoC": A classic of the parser / regex genre, with a fun twist of
+           intentionally weakened input that admits "staring at the input"
+           as an appropriate solution.
+
+20: Align tiles that can be rotated or flipped to form a mosaic.  Then match
+    a pattern on the built mosaic.
+
+    *: This was an interesting problem.  There's a key insight that you can
+       use to go fast on part 1.  There were also a lot of ways to get the
+       implementation wrong.
+
+21: Parse some input.  Constraint-solve to assign some parameters to some
+    number of data fields, with validation rules that are a little bit of a
+    brainteaser.  (See 2020/16, 2018/16.)
+
+22: Implement "War" (the card game).  Implement it with fiddly rules that
+    can create recursion.
+
+23: Implement a transposition game with some logic for shuffling elements
+    around.  Now do it on a very large input -- so large that O(elements)
+    time will not terminate in a reasonable amount of time.
+
+    *: This was a good problem.  The insight required for part 2 was easy,
+       and rewarding to implement.  It requires construction of at least a
+       slightly novel datastructure -- one that is circular, and has O(1)
+       insert *and* O(1) lookup -- that is unlikely to be in a system
+       datastructures library.
+
+24: Do hexagonal cell walking based on "cardinal" directions in an
+    irritating string format (see 2017/11).  Then -- you guessed it --
+    implement a cellular automaton.
+
+25: Crack Diffie-Hellman by doing some modular exponentiation, as explained
+    in a somewhat confusing fashion.
+
+===== 2019 =====
+
+1: Do some arithmetic.  Do some more arithmetic.
+
+2: Intcode: Implement a small straight-line arithmetic VM.  Produce an
+   input that satisfies the program.
+
+3: Implement some path-tracing and intersections.
+
+4: Do some business logic validation.
+
+5: Intcode: Extend the VM with I/O and addressing modes.  Extend the VM with
+   conditional branches.
+
+6: Construct a graph.  Traverse the graph.
+
+7: Intcode: Link multiple VMs together in a network and find a satisfactory
+   input.  Link VMs together in a more different network.
+
+8: Layer a grid together and construct an image.
+
+9: Intcode: Extend the VM with stack addressing modes.  Ensure that your
+   VM's performance is satisfactory.
+
+10: Do some line-drawing and detect intersections.  Radially sort objects.
+
+    *: This was a good problem because the rules of the input were easy to
+       describe, and the implementation drew on a wide breadth of knowledge. 
+       In addition to Just Doing Some Programming, the implementation
+       required some geometrical thinking, and implementation in ways that
+       graphics programmers hold some advantage.
+
+11: Intcode: Implement some more complicated I/O on the VM, with externally
+    held state.  Read out some letters.
+
+12: Simulate a multi-object system.  Detect system periodicity (with a key insight
+    that the sub-periodicities are separable).
+
+13: Intcode: Run a game of Breakout inside the VM!  Implement an AI.
+
+    *: This was not particularly challenging, but it was rewarding and fun!
+
+14: Execute some linear logic input rules, and determine how many tokens are
+    consumed.  Determine how many outputs can be produced given a certain
+    number of input tokens, with an algorithm that requires better-than-O(n)
+    behavior.
+
+    *: This is a good problem because the description is simple and the
+       resulting algorithm is elegant, but the description does not
+       immediately suggest the algorithm.
+
+15: Intcode: Traverse a maze that is encoded in the program.  Construct a map
+    and perform a flood fill per stated rules.
+
+16: The "Fucked Fourier Transform"!  Implement some rules to do an odd sort
+    of convolution.  Expand the input dramatically, and either implement a
+    clever partial sum to reduce the complexity or have the key insight that
+    the input is particularly weak, and requires only a small number of the
+    rules to be applied.
+
+    ->||<-: If the input were strong enough that it forced you to do the
+            partial sums implementation, this problem would be much more
+            interesting.  Instead, it admits a somewhat easier-to-implement
+            solution that requires noticing a weakness in the input.
+
+    !: The insight that allows you to cheat on part 2 is super obnoxious.
+
+17: Intcode: Construct a map from the output of a VM program.  Hand-compute
+    an input that traverses the entirety of the map, and decompose it.
+
+    !: This is just obnoxious.
+
+18: Pathfind a sequence of goals.  Then pathfind with multiple agents.
+
+    *: This is a fun variant of a BFS with enough tweaks to keep it
+       interesting, and to require some performance optimizations to avoid
+       revisiting positions needlessly.
+
+19: Intcode: Find points along a line whose characteristics are known only
+    to a program in the VM.
+
+20: Do a BFS, with a vaguely irritating parsing problem.  Then, add
+    additional constraints on the BFS.
+
+    "AoC": This is a classic mix of AoC parsing difficulties along with an
+           interesting search.  The part-2 is a not-entirely-straightforward
+           extension that keeps you on your toes.
+
+21: The "ICFPC 2013" problem. Intcode: Come up with a boolean expression to
+    satisfy a hidden table.  Minimize it to a set of register-machine
+    instructions.  Do it again.
+
+    ->||<-: If the input were strong enough to make you write a program to
+            find the hidden value, or to make you write a boolean logic
+            minimizer, it would have been a much more interesting problem. 
+            As it was, it was a decent short brainteaser that made you think
+            a little differently, but involved a lot of hand-interacting
+            with a computer.
+
+22: Do some permutations on a little input.  Then do a very large number of
+    permutations on a colossal input.
+
+    **: This is a fantastically rewarding problem.  Part 2 requires a bunch
+        of subsequent insights to turn an O(n*m)-ish problem into a series
+        of closed-form solutions.  The result requires drawing from a wide
+        breadth of knowledge and disciplines, and taught me a bunch of new
+        tricks.
+
+23: Intcode: Build a slightly more interesting network of VMs.  (See
+    2019/7.) 
+
+24: Implement a cellular automaton.  Implement it with new adjacency rules.
+
+25: The "ICFPC 2006" problem.  Intcode: Play a small adventure game.
+
+===== 2018 =====
+
+1: Do some arithmetic.
+
+2: Do some character counting.  Do some string munging.
+
+3: Spatially intersect some rectangles.
+
+4: Parse some irritating input.  Intersect some bounds.
+
+5: Manipulate strings to remove adjacent lcase-ucase pairs.
+
+   "AoC": This is a classic early-AoC problem.  Not too challenging, and
+          typifies the "do some string manipulation character-wise" genre.
+
+6: Produce a Voronoi diagram.  Iterate over a grid to find a maximum.
+
+7: Construct a graph.  Traverse the graph by some rules.  Traverse the graph
+   in parallel by different rules.
+
+8: Parse a tree, and traverse it.
+
+9: Implement simple game rules on a repeated array manipulation.  Implement them
+   in O(1) time.
+
+10: Simulate a non-interacting physical system to a non-obvious endpoint.
+
+    *: This is a good problem.  It admits a simple description, it does not
+       take long to implement, and it takes some thinking to come up with a
+       solution.  In short, it has the rewarding process of "how on earth do
+       I-- well, I wonder if I can-- well, hey, it worked!".
+
+11: Implement a cheesy hash function.  Sum some regions.
+
+    ->||<-: The input was weak, and this could have forced you to implement
+            partial sums to reduce the complexity, but it didn't.  Without
+            partial sums, it runs in 7.8 seconds on my machine.
+
+12: Implement a 1D cellular automaton.  Recognize a pattern in the output.
+
+    "AoC": Forcing you to look at the behavior of the input, rather than
+           just implementing the rules, is an AoC classic maneuver.
+
+    ++: I implemented a hashlife-like for this.
+
+13: Follow paths in a map.  (See 2017/19.)
+
+14: Implement a sequence.  Find a property of a sequence.
+
+15: "Goblins vs. Elves".  Implement a truly obnoxious combat simulation.
+
+    !: The simulation is extraordinarily fidgety, and has a million, billion
+       subrules that all need to be implemented correctly.  It is
+       maddeningly, needlessly complicated and intensely frustrating.
+
+16: Implement the semantics of a small virtual machine.  Constraint-solve
+    to determine which opcodes map to which mnemonics.  Execute a program.
+
+    **: This is a fun and rewarding problem that fuses multiple different
+        ways of thinking about programming -- constraint solving, as well as
+        writing a VM.
+
+17: "The water problem".  Use very specific flood-fill semantics to fill a
+    space.
+
+    !: This was also intensely fiddly, and required a lot of frustrating
+       debugging.  It would be much more fun if it weren't for speed.
+
+18: Implement a 2D cellular automaton.  You guessed it ... recognize a
+    pattern in the output.
+
+19: Add flow control to day 16's VM.
+
+20: Write a regex expander using a better-than-naive algorithm.
+
+21: Reverse engineer a small microprogram from day 16's VM.  (See also
+    2017/23.)
+
+    *: I love reverse engineering.  Your mileage may vary.
+
+22: Perform a BFS with a slightly different sense of priorities.
+
+23: "The Z3 problem".  Parse an input and do a trivial spatial calculation
+    on it.  Then write a spatial maximizer, which turns out to be anything
+    but trivial.
+
+    !: 'IIRC that's also the 2018 one where a few folks were like "I just
+       plugged the values into the constraint solver I used during my PhD
+       thesis and it spat the answer out for me!!!"' 'the complaint about
+       feeding it into z3 and having it spit out the answer is meh, but the
+       fact that virtually everyone on the leaderboard who didn't use z3 and
+       posted a public solution wrote an algorithm that didn't work for
+       every input makes it infamous to me'
+
+24: Simulate quite a bit less obnoxious combat.
+
+    "AoC": I feel like this is probably one of the better of the 'business
+           logic' genre of problem.  It contains some obnoxious parsing, and
+           some fiddly rule-following, but it's long enough that you can
+           make at least one error (and, often more) and still leaderboard.
+
+25: Create clusters of spatial points, and count them up.
+
+===== 2017 =====
+
+1: Do some processing in a circular list.  Do some slightly different
+   processing.
+
+2: Do some slightly more complicated processing on lists of numbers.
+
+3: Lay out a sequence in a grid iteratively.
+
+4: Validate some input with some provided business logic.
+
+5: Iterate on, while mutating, an implicitly linked list.
+
+6: Repeatedly apply a rule to an array, and cycle-check.
+
+7: Construct a tree.  "Balance" the tree by modifying a node such that each
+   subtree is also "balanced".
+
+   "AoC": This is just a classic tree manipulation problem. 
+
+8: Implement a small register machine.  
+
+9: Parse some strings.  Create a vestigial tree, but do not do any
+   operations on it.
+
+10: Do some permutations on an input.  Do some bitwise ops on the result.
+
+11: Do "Manhattan" distance on a hexagonal grid.
+
+    *: This is not particularly tricky, but requires an insight as to how to
+       do it.  It is simple to describe.
+
+12: Parse, and cluster, a graph.
+
+13: Do modular arithmetic -- or iterate.  Do the Chinese Remainder Theorem
+    (or don't, it's up to you).
+
+14: Reuse the hash function from 2017.10.  Implement a floodfill.
+
+    "AoC": This builds on a previous problem, and extends it in a slightly
+           interesting way.
+
+15: Do a lot of arithmetic in a reasonable amount of time.
+
+16: Do some permutations, as per a set of rules.  Do them a billion times.
+
+    *: This is a rewarding problem that requires an interesting insight to
+       solve efficiently.
+
+    "AoC": This is a problem where a simple task is iterated in a way that
+           generates a very different result.
+
+17: Implement O(n) insertion.  Come up with an insight to not have to do any
+    insertion at all.
+
+18: Implement a small VM.  Then implement the VMs in parallel, with
+    different semantics.
+
+19: Follow a minecart track.
+
+20: Implement a non-interacting particle simulation.  Then, make the
+    particles trivially interact.
+
+21: Implement a variant on an upsampling cellular automata system.  Do it
+    relatively efficiently.
+
+22: Implement a turtle automaton.  Make the state machine more complicated.
+
+23: Enhance the day 18 VM.  Reverse engineer a small microprogram.
+
+24: Find a maximal configuration of a collection of inputs.
+
+25: Parse a very ugly input to produce rules for a Turing machine.
+
+    "AoC": Like it or not, ugly parsing problems -- or hard-coding your
+           input into your solution! -- are a part of Advent.  This is an
+           ugly parsing problem.
