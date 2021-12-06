@@ -7,6 +7,24 @@ This document may contain spoilers.
 "AoC" is a problem that is "a canonical Advent" problem.
 ++ is a problem that I did some "upping the ante" on.
 
+===== 2021 =====
+
+1: Do some comparisons.  Do some comparisons on a sliding window.
+
+2: Parse a small instruction stream.  Change the rules of the instructions.
+
+3: Manipulate some sets and do some base conversion.
+
+4: Play bingo.  Play a little more bingo.
+
+5: Draw some lines on a grid.
+
+6: Simulate a system that has exponential growth for a little while.  Then
+   simulate it for a bit longer.
+
+   "AoC": A classic 'do something inefficiently, then do it efficiently'
+          problem.
+
 ===== 2020 =====
 
 1: Find some pairs.
