@@ -54,14 +54,11 @@ for line in sys.stdin.readlines():
     for num in nums:
         val = val * 10
         l = [m[segs[seg]].as_long() for seg in num]
-        print(l)
         l.sort()
         pat = "".join([str(c) for c in l])
         val = val + demap[pat]
     all = all + val
     print(val)
-    
-    print(m)
 
 print("***")
 print(all)
