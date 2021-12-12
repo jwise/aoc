@@ -14,17 +14,13 @@ while true do
 end
 
 function dfs(pos, visited, path)
---	print(path)
 	if smalls[pos] and visited[pos] then print("VISITED",pos) return 0 end
 	if pos == "end" then return 1 end
-	local cave = caves[pos]
-	local to
 	local opts = 0
 	local nvisited = {}
 	for vis,_ in pairs(visited) do nvisited[vis] = true end
 	nvisited[pos] = true
 	for to,_ in pairs(caves[pos]) do
---		print(pos, to)
 		opts = opts + dfs(to, nvisited, path .. "-" .. to)
 	end
 	return opts

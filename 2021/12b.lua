@@ -24,14 +24,11 @@ function dfs(pos, visited, nvtwice, path)
 	end
 	if pos == nil then pos = "start" end
 	if pos == "end" then return 1 end
-	local cave = caves[pos]
-	local to
 	local opts = 0
 	local nvisited = {}
 	for vis,_ in pairs(visited) do nvisited[vis] = visited[vis] end
 	nvisited[pos] = (nvisited[pos] or 0) + 1
 	for to,_ in pairs(caves[pos]) do
---		print(pos, to)
 		opts = opts + dfs(to, nvisited, nvtwice, path .. "-" .. to)
 	end
 	return opts
