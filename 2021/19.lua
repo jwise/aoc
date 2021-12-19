@@ -63,8 +63,6 @@ function trnpointlocked(scanner, pt)
 end
 
 function lockedpairs(labspts, unlabspts)
-	local maxlocked = 0
-	-- THIS IS WRONG BUT MIGHT WORK??
 	local hist = {}
 	for _,lpt in ipairs(labspts) do
 		local x,y,z,s
@@ -72,16 +70,19 @@ function lockedpairs(labspts, unlabspts)
 			x = lpt.x-unlpt.x
 			y = lpt.y-unlpt.y
 			z = lpt.z-unlpt.z
-			s = x..","..y..","..z
-			if not hist[s] then hist[s] = { x = x, y = y, z = z, n = 0 } end
-			hist[s].n = hist[s].n + 1
+			s = (x+1000)*2000000 + (y+1000)*2000 + z --x..","..y..","..z
+			if not hist[s] then hist[s] = { x = x, y = y, z = z, pts = {} } end
+			hist[s].pts[unlpt] = true
 		end
 	end
 	for hn,hist in pairs(hist) do
-		if hist.n >= BCNPAIR then
+		local n = 0
+		for _,_ in pairs(hist.pts) do
+			n = n + 1
+		end
+		if n >= BCNPAIR then
 			return hist
 		end
-		if hist.n > maxlocked then maxlocked = hist.n end
 	end
 	return nil
 end
