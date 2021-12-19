@@ -112,21 +112,23 @@ end
 
 scanners[1].rot = rotations["1x1y1z"]
 scanners[1].pos = { x = 0, y = 0, z = 0 }
-scanners[1].locked = true
+scanners[1].locked = -1
 scanners[1].abspts = scanners[1] -- lol?
 
 unlocked = #scanners - 1
 lastunlocked = 0
+iter = 0
 while unlocked > 0 do
 	-- for each scanner that is unlocked ...
 	for unln,unls in pairs(scanners) do
 		if not unls.locked then
 			-- for each scanner that is locked ...
 			for ln,ls in pairs(scanners) do
-				if ls.locked then
+				if ls.locked == iter - 1 then
 					-- unls is unlocked, ls is locked
 					if tryscanners(ls,unls) then
 						print("LOCKED "..ls.id-1 .. "+"..unls.id-1 .. " @ " .. unls.pos.x ..","..unls.pos.y..","..unls.pos.z)
+						unls.locked = iter
 						unlocked = unlocked - 1
 						break
 					end
@@ -136,6 +138,7 @@ while unlocked > 0 do
 	end
 	if lastunlocked == unlocked then assert(false, "NO PROGRESS -- ABORT") end
 	lastunlocked = unlocked
+	iter = iter + 1
 	print("...")
 end
 
