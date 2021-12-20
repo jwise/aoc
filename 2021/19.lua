@@ -110,10 +110,25 @@ function tryscanners(ls, unls)
 	return false
 end
 
+collectgarbage("stop")
+
 scanners[1].rot = rotations["1x1y1z"]
 scanners[1].pos = { x = 0, y = 0, z = 0 }
 scanners[1].locked = -1
 scanners[1].abspts = scanners[1] -- lol?
+
+rots = {}
+
+for _,sc in pairs(scanners) do
+	rots[sc] = {}
+	for rnam,rot in pairs(rotations) do
+		local rpts = {}
+		for _,pt in ipairs(sc) do
+			table.insert(rpts, trnpoint(rot, nil, pt))
+		end
+		rots[sc][rnam] = rpts
+	end
+end
 
 unlocked = #scanners - 1
 lastunlocked = 0
