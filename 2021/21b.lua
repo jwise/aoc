@@ -1,8 +1,6 @@
 wts = {}
 for i=1,3 do for j=1,3 do for k=1,3 do wts[i+j+k] = (wts[i+j+k] or 0) + 1 end end end
 
-for k,v in pairs(wts) do print(k, v) end
-
 wtab = {}
 function wins(pos1, pos2, score1, score2)
 	local key = string.format("%d %d %d %d", pos1, pos2, score1, score2)
@@ -34,4 +32,4 @@ function wins(pos1, pos2, score1, score2)
 end
 
 endwins = wins(6, 10, 0, 0)
-print(endwins[1], endwins[2])
+print(string.format("%d %d", endwins[1], endwins[2]))
