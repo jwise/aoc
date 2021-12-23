@@ -1,19 +1,3 @@
--- everything is bad, no mouse, no audio, no video, ... whatever
-
--- THIS FUCKING SUCKS I AM OWNED
--- I WISH I HAD A MOUSE
--- I WISH IC OULD COPY TEST INPUTS
--- UGH
--- THIS IS GOING TO TAKE A FUCKING HOUR
--- timne to write code
-
--- hallway length is 11
--- hallway extents are 0,10
--- doors are at 2,4,6,8
--- so this is a pathfinding problem on... state vector of eight APs with X-Y coordinates, and a 'locked' bit (whether the AP is locked in place)
--- desired stvec is A0 = 2,1 or 2,2; A1 = 2,1 or 2,2; B0 = 4,1
--- hallway is y=0
-
 MAXH=2
 
 function mkstartst(str)
@@ -101,6 +85,59 @@ WANTX = { A = 2, B = 4, C = 6, D = 8 }
 MVWEIGHT = { A = 1, B = 10, C = 100, D = 1000 }
 
 local frontier = {}
+-- parent of pos is math.floor(pos/2)
+-- child of pos is 2*pos, 2*pos+1
+function frontier_ins(st)
+	table.insert(frontier, st)
+	local pos = #frontier
+	st.pos = pos
+	frontier_heapup(pos)
+end
+
+function frontier_heapup(pos)
+	while pos ~= 1 do
+		local parent = math.floor(pos/2)
+		if frontier[parent].cost <= frontier[pos].cost then break end
+		frontier[parent].pos,frontier[pos].pos = frontier[pos].pos,frontier[parent].pos
+		frontier[parent],frontier[pos] = frontier[pos],frontier[parent]
+		
+		pos = parent
+	end
+end
+
+function frontier_heapdown(pos)
+	while true do
+		local left = pos * 2
+		local right = pos * 2 + 1
+		local smallest = pos
+		
+		if left  <= #frontier and frontier[left ].cost < frontier[smallest].cost then smallest = left  end
+		if right <= #frontier and frontier[right].cost < frontier[smallest].cost then smallest = right end
+		
+		if smallest == pos then break end
+		frontier[smallest].pos,frontier[pos].pos = frontier[pos].pos,frontier[smallest].pos
+		frontier[smallest],frontier[pos] = frontier[pos],frontier[smallest]
+		pos = smallest
+	end
+end
+
+function frontier_pop()
+	local ret = frontier[1]
+	local last = table.remove(frontier)
+	if not last then return ret end
+	frontier[1] = last
+	last.pos = 1
+
+	frontier_heapdown(1)
+	
+	return ret
+end
+
+function frontier_recost(st)
+	frontier_heapup(st.pos)
+	frontier_heapdown(st.pos)
+end
+
 function visit(st)
 	local demap = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
 	for apc,aps in pairs(st) do
@@ -135,16 +172,12 @@ function visit(st)
 		end
 		if st2.frontier then
 			if cost >= st2.cost then return end
-			-- remove from frontier
-			for i=1,#frontier do
-				if frontier[i] == st2 then table.remove(frontier, i) break end
-			end
+			st2.cost = cost
+			frontier_recost(st2)
+			return
 		end
 		st2.cost = cost
-		-- insert in place
-		for i=1,#frontier+1 do
-			if not frontier[i] or frontier[i].cost > st2.cost then table.insert(frontier, i, st2) break end
-		end
+		frontier_ins(st2)
 		st2.frontier = true
 	end
 	
@@ -208,7 +241,6 @@ end
 startst = mkstartst("CBADDCBADBACBCDA")
 wantst = mkstartst("ABCDABCDABCDABCD")
 
-
 startst = stcanon(startst)
 startst.cost = 0
 print(startst.key)
@@ -216,11 +248,11 @@ print(startst.key)
 wantst.cost = math.huge
 wantst = stcanon(wantst)
 
-table.insert(frontier, startst)
+frontier_ins(startst)
 startst.frontier = true
 done = 0
 while #frontier > 0 do
-	local nextst = table.remove(frontier, 1)
+	local nextst = frontier_pop()
 	if nextst == wantst then
 		print("FOUND WANTST",wantst.cost)
 		break
