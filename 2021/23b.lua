@@ -22,6 +22,10 @@ function stcanon(st)
 		if a.x == b.x then return a.y < b.y end
 		return false
 	end
+	table.sort(st["A"], sortfn)
+	table.sort(st["B"], sortfn)
+	table.sort(st["C"], sortfn)
+	table.sort(st["D"], sortfn)
 	if not st.key then
 		st.key = stkey(st)
 	end
@@ -32,10 +36,6 @@ function stcanon(st)
 		return sts[st.key]
 	end
 	sts[st.key] = st
-	table.sort(st["A"], sortfn)
-	table.sort(st["B"], sortfn)
-	table.sort(st["C"], sortfn)
-	table.sort(st["D"], sortfn)
 	return st
 end
 
@@ -226,8 +226,8 @@ end
 
 -- well that was a fucking odyssey
 -- part 1: sample
---startst = mkstartst("BCBDADCA")
---wantst = mkstartst("ABCDABCD")
+startst = mkstartst("BCBDADCA")
+wantst = mkstartst("ABCDABCD")
 
 -- part 1: real
 --startst = mkstartst("CBADBCDA")
@@ -238,8 +238,8 @@ end
 --wantst = mkstartst("ABCDABCDABCDABCD")
 
 -- part 2: real
-startst = mkstartst("CBADDCBADBACBCDA")
-wantst = mkstartst("ABCDABCDABCDABCD")
+--startst = mkstartst("CBADDCBADBACBCDA")
+--wantst = mkstartst("ABCDABCDABCDABCD")
 
 startst = stcanon(startst)
 startst.cost = 0
