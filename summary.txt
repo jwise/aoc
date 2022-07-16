@@ -9,6 +9,8 @@ This document may contain spoilers.
 
 ===== 2021 =====
 
+(a 'two-Z3' year for me!)
+
 1: Do some comparisons.  Do some comparisons on a sliding window.
 
 2: Parse a small instruction stream.  Change the rules of the instructions.
@@ -24,6 +26,79 @@ This document may contain spoilers.
 
    "AoC": A classic 'do something inefficiently, then do it efficiently'
           problem.
+
+7: Optimize in a finite solution space.
+
+8: Constraint-solve to figure out a mapping of wires to potential segments
+   on a 7seg display.
+
+   "AoC": A classic constraint solving problem.  Reminiscent of 2018/16.
+
+9: Find local minima on a 2D grid.  Implement a floodfill.
+
+10: Parse a stack-like input, and compute two different scores based on
+    unpaired elements.
+
+11: Evaluate a system of cellular automata.
+
+12: Count the number of elements in the set of valid traversals of a graph. 
+    Modify the rules of valid traversals slightly and do it again.
+
+13: Do some operations on a 2D grid that represents a picture (mirroring
+    along X or Y axes).
+
+    * I just found this one kind of pleasing.  It felt like a classic
+      'here's a grid with some letters'.  You get about one of those a year,
+      and it's always very satisfying to see legible letters come out the
+      other end!
+
+14: Do some string manipulation.  Do a lot more of it -- so much more of it
+    that you can't really store the entire string.
+
+    ->||<-: I think this problem would have been a lot more interesting if
+            it forced partial evaluation!
+
+15: Min-weight pathfind along a grid.  Now pathfind harder.
+
+16: Parse, and evaluate, an expression that is packetized on non-byte
+    boundaries.
+
+17: Simulate ballistic trajectory in discrete time.  Prove that you did it
+    by searching a range of input parameters.
+
+18: Implement a *very* fidgety expression evaluator.
+
+    !: Ah, the rules for this are *so* easy to get wrong!  And the
+       terminology is confusing, too.  Very fidgety indeed.
+
+19: Hold your fingers up in the XYZ 3D gang sign.  Rotate them around, a
+    lot.  Read Wikipedia to come up with all the 3D rotation matrices of a
+    cube.  Map different views of the world against each other and determine
+    what viewpoints you see the world through.
+
+    * This was a great 'steady march towards victory' problem.  I did it in
+      <200 lines of code and it took me like an hour, and I still
+      leaderboarded.
+
+20: Run a cellular automaton.  Don't get got by boundary conditions.
+
+21: Implement a small turn-based system.  Memoize a version of the system
+    that can explode in complexity.  (Eerily reminiscent of 2020/20.)
+
+22: Do some geometric voxel intersections in an O(voxels) way.  Then do it
+    in an O(steps) way, because the number of voxels is colossal.
+
+    "AoC": A classic geometric problem, and also a classic "do it the naive
+           way, then do it the performant way" problem.
+
+23: The "amphipod" problem: search a very fiddly space of moves in a
+    multi-agent system.  This one was a long one for me.
+
+24: Implement a microcode machine.  Reverse engineer a microcode problem and
+    optimize the solutions it will accept.  Or let your handy neighborhood
+    theorem prover do it for you, I suppose. 
+
+25: Run yet another cellular automata problem.
 
 ===== 2020 =====
 
