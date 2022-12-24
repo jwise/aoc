@@ -44,21 +44,19 @@ ls = d.split('\n')
 ls = ls[1:] # cd /
 cpath = [root]
 while len(ls) > 0:
-    cmd = ls[0].split(' ')
-    ls = ls[1:]
-    if cmd[1] == 'ls':
+    l = ls.pop(0)
+    if cmd := parse.parse('$ ls', l):
         while len(ls) > 0 and ls[0][0] != '$':
-            sz,nam = ls[0].split(' ')
-            ls = ls[1:]
+            sz,nam = ls.pop(0).split(' ')
             if sz == 'dir':
                 cpath[-1][nam] = {}
             else:
                 cpath[-1][nam] = int(sz)
-    elif cmd[1] == 'cd':
-        if cmd[2] == '..':
+    elif cmd := parse.parse('$ cd {}', l):
+        if cmd[0] == '..':
             cpath.pop()
         else:
-            cpath.append(cpath[-1][cmd[2]])
+            cpath.append(cpath[-1][cmd[0]])
 
 totsz = 0
 def travers(dir):
@@ -66,7 +64,6 @@ def travers(dir):
     csz = 0
     for fn in dir:
         sz = dir[fn]
-        print(fn,sz)
         if type(sz) == int:
             csz += sz
         else:

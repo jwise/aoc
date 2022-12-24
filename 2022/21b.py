@@ -2,7 +2,7 @@
 
 from aocd import get_data
 from collections import *
-import re, parse, itertools, os, functools
+import re, parse, itertools, os, functools, sys
 from dataclasses import *
 from z3 import *
 import z3
@@ -10,7 +10,10 @@ import z3
 if 'TEST' not in os.environ:
     d = get_data(year = 2022, day = 21)
 else:
-    d = """root: pppw + sjmn
+    if os.environ['TEST'] == 'stdin':
+        d = sys.stdin.read().replace('\r','')
+    else:
+        d = """root: pppw + sjmn
 dbpl: 5
 cczh: sllz + lgvd
 zczc: 2
