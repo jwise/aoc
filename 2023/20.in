@@ -1,0 +1,78 @@
+broadcaster -> qt
+%qt -> xk, qx  <- qx
+%xk -> td, qx
+%td -> sr, qx
+%sr -> hf      <- qx
+%hf -> nh      <- qx
+%nh -> lh      <- qx
+%lh -> mj      <- qx
+%mj -> zm      <- qx
+%zm -> dv, qx
+%dv -> sl, qx
+%sl -> pk, qx
+%pk ->     qx
+
+& is input NAND
+
+so ~(PK & SL & DV & ZM & TD & XK & QT)
+
+&qx -> lh, hf, nh, sr, mj, qt, vf,
+&vf -> jz
+
+vf ticks at: 3847, 7694, 11541, 15388, 
+
+vf ticks at n * 3847 == 0, for n > 0
+
+&jz -> rx
+
+
+%qs -> rp, pn
+%rp -> gs
+%gs -> bg
+%bg -> bk     <- pn
+%bk -> rs
+%rs -> dk, pn
+%dk -> kx     <- pn
+%kx -> gj, pn
+%gj -> nf, pn
+%nf -> dm, pn
+%dm -> rm, pn
+%rm ->     pn
+
+&pn -> dh, dk, bg, qs, rp, bk, gs
+&dh -> jz
+
+pn ticks at 4001, 8002, 12003, ...
+rn ticks at 3923, 7846, ...
+mk ricks at 4091, 8182, 12273, ...
+
+%nd -> qf
+%hc -> jg, ks
+%pt -> gv, jg
+%jq -> nd
+%gv -> jg, mr
+%gm -> jv
+&zt -> jq, rn, nd, bt, jh, gm
+%mz -> dc, zt
+%dc -> zt, db
+%rc -> gz, jg
+%lv -> tb, jg
+&mk -> jz
+%bt -> pv, zt
+%cg -> mz, zt
+%jd -> lv, jg
+%jv -> jh, zt
+%ks -> jg, jd
+broadcaster -> bt, rc, qs, qt
+%pv -> jq, zt
+%db -> zt
+%qf -> gm, zt
+%gz -> vj, jg
+%mr -> jg
+&jg -> rc, mk, vj
+%qh -> hc, jg
+%vj -> qh
+%tb -> pt, jg
+&rn -> jz
+%jh -> cg
+
