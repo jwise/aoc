@@ -14,8 +14,8 @@ import re, parse,functools, heapq
 # have you considered: a tactical nuke on an ant?
 # have you considered: 
 
-#d = get_data(year = 2023, day = 18)
-d = open('18.x','r').read()
+d = get_data(year = 2023, day = 18)
+#d = open('18.x','r').read()
 y,x = (0,0)
 miny = 0
 minx = 0
@@ -27,12 +27,13 @@ lines = {}
 ps = []
 yedge = 0
 xedge = 0
+edgelen = 0
 ps.append((0, 0))
 for l in d.split('\n'):
     dir,n,col = l.split(' ')
     n = int(n)
-#    dir = col[7]
-#    n = int(col[2:7],16)
+    dir = col[7]
+    n = int(col[2:7],16)
     if dir == '3' or dir == 'U':
         dy, dx = (-1, 0)
         yedge = 0
@@ -41,7 +42,7 @@ for l in d.split('\n'):
         for yy in range(sty, eny+1):
             if yy not in lines:
                 lines[yy] = []
-            lines[yy].append(x)
+            lines[yy].append(x + xedge)
     elif dir == '1' or dir == 'D':
         dy,dx = (1, 0)
         yedge = 1
@@ -50,7 +51,7 @@ for l in d.split('\n'):
         for yy in range(sty, eny+1):
             if yy not in lines:
                 lines[yy] = []
-            lines[yy].append(x)
+            lines[yy].append(x + xedge)
     elif dir == '2' or dir == 'L': # L
         xedge = 0
         dy,dx = (0,-1)
@@ -60,7 +61,7 @@ for l in d.split('\n'):
         dy,dx = (0,1)
     else:
         crap()
-    print(dy, dx, y, x, n)
+    print(dy, dx, y, x, n, xedge, yedge)
     y += dy * n
     x += dx * n
     if y < miny:
@@ -71,13 +72,14 @@ for l in d.split('\n'):
         minx = x
     if x > maxx:
         maxx = x
-    #ps.append((y, x))
-    ps.append((y + yedge, x + xedge))
+    ps.append((y, x))
+    edgelen += n
+    #ps.append((y + yedge, x + xedge))
 
 segs = zip(ps, ps[1:] + [ps[0]])
-a = 0.5 * abs(sum([x0*y1-x1*y0 for ((y0, x0), (y1, x1)) in segs]))
-print(a)
-
+a = abs(sum([x0*y1-x1*y0 for ((y0, x0), (y1, x1)) in segs])) // 2
+print(a, edgelen, a + edgelen // 2 + 1)
+fuq()
 cells = 0
 for l in range(miny,maxy+1):
     ll = lines[l]
