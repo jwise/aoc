@@ -7,6 +7,97 @@ This document may contain spoilers.
 "AoC" is a problem that is "a canonical Advent" problem.
 ++ is a problem that I did some "upping the ante" on.
 
+===== 2024 =====
+
+1: Zip two lists of numbers.
+
+2: Determine whether lists of numbers are monotonic.
+
+3: Parse some instructions out of a noisy stream.
+
+4: Look for a pattern along various directions in a 2D grid.  Look for a
+   different pattern.
+
+5: Determine which inputs satisfy rules also from the input.  Make the
+   inputs that don't satisfy the rules satisfy the rules.
+
+6: Walk around a map.  Choose permitted mutations to a map that would make
+   the walk behavior non-terminating.
+
+7: Plug functions into lists of numbers to determine which equations are
+   satisfiable.  Add another function.
+
+8: Find pairs on a map and add some other points related to those pairs to a
+   set.  Change the rules slightly for where the other points go.
+
+===== 2023 =====
+
+===== 2022 =====
+
+1: Find the maximum of a list of lists.  Find the top 3.
+
+2: Play rock-paper-scissors with an unusually opaque decoder ring.
+
+3: Do set intersection.  Do it again, but more differently.
+
+4: Check if ranges fully intersect.  Check if ranges partially intersect.
+
+5: Manipulate some stacks with a cute input format.
+
+   "AoC": A very cute and human-friendly input format that is largely
+          immaterial to the machine and can be parsed by mostly ignoring it.
+
+6: Look for repeating letters in a sequence in a way that invites
+   hand-coding.  Then program a computer to do it in a way that would be
+   annoying to write by hand.
+
+7: Parse a particularly cute input format into a tree.  Do a few trivial
+   summaries on the tree.
+
+8: Traverse a 2D grid in cardinal directions from all edges.  Find a
+   maximum-merit point on the grid.
+
+9: Simulate a variant of a game of Snake.
+
+10: Simulate a trivial opcode machine with less-than-trivial timing
+    parameters.  Measure the behavior at different timing intervals, and
+    then plot it to make letters!
+
+    "AoC": See also 2021/13, 2019/11, ...
+
+11: Simulate a system of automata described by rules in the input.  Do it
+    again, but for a while longer, and with a change to the automaton rules
+    that keep values from exploding in magnitude, and with an extremely
+    heavy-handed wording of a hint.
+
+12:
+
+13:
+
+14:
+
+15:
+
+16:
+
+17:
+
+18:
+
+19:
+
+20:
+
+21:
+
+22:
+
+23:
+
+24:
+
+25:
+
 ===== 2021 =====
 
 (a 'two-Z3' year for me!)
