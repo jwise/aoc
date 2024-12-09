@@ -30,6 +30,8 @@ This document may contain spoilers.
 8: Find pairs on a map and add some other points related to those pairs to a
    set.  Change the rules slightly for where the other points go.
 
+9: Make a 1D map, and find gaps in it.  Find contiguous gaps in it.
+
 ===== 2023 =====
 
 ===== 2022 =====
