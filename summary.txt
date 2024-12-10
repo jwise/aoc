@@ -32,6 +32,9 @@ This document may contain spoilers.
 
 9: Make a 1D map, and find gaps in it.  Find contiguous gaps in it.
 
+10: Traverse a 2D grid for reachable points.  Traverse it for number of
+    paths.  Don't confuse the two.
+
 ===== 2023 =====
 
 ===== 2022 =====
