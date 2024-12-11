@@ -35,6 +35,9 @@ This document may contain spoilers.
 10: Traverse a 2D grid for reachable points.  Traverse it for number of
     paths.  Don't confuse the two.
 
+11: Iterate an explosively growing function a few times.  Iterate it enough
+    times that it would get unpleasant to do inefficiently.
+
 ===== 2023 =====
 
 ===== 2022 =====

@@ -29,15 +29,15 @@ for eq in eqs:
     
     for ops in itertools.product(['+', '*', '||'], repeat = len(ns)-1):
         val = ns[0]
-        nns = list(ns[1:])
-        for op in ops:
+        for n,op in zip(ns[1:], ops):
             if op == '*':
-                val = val * nns[0]
+                val = val * n
             elif op == '+':
-                val = val + nns[0]
+                val = val + n
             elif op == '||':
-                val = int(str(val) + str(nns[0]))
-            nns = nns[1:]
+                val = int(str(val) + str(n))
+            if val > tv:
+                break
         if val == tv: 
             istrue = True
             break
