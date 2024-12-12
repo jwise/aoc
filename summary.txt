@@ -38,6 +38,9 @@ This document may contain spoilers.
 11: Iterate an explosively growing function a few times.  Iterate it enough
     times that it would get unpleasant to do inefficiently.
 
+12: Flood fill a map and find area and perimeter.  Find the number of
+    contiguous edges on the perimeter.
+
 ===== 2023 =====
 
 ===== 2022 =====
