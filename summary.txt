@@ -41,6 +41,11 @@ This document may contain spoilers.
 12: Flood fill a map and find area and perimeter.  Find the number of
     contiguous edges on the perimeter.
 
+13: Minimize an integer solution to a system of linear equations.  Do it
+    again, but make the coefficients really big.
+
+14: Simulate some position/velocity pairs.  Find the ASCII art!
+
 ===== 2023 =====
 
 ===== 2022 =====
