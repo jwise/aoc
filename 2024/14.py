@@ -5,8 +5,6 @@ from aocd import get_data
 from collections import *
 import math
 import re, parse,functools, heapq,itertools
-from z3 import *
-import z3
 
 # re.findall(pattern, string, flags)   r'\s'
 # re.sub(r'<b>(.*?)</b>', r'\1', str)

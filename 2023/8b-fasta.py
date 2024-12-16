@@ -63,6 +63,7 @@ for n in curnodes:
     n['cyclen'] = len(n['hist']) - cycstart - 1
     n['zpos'] = zpos
     print(f"cycle starts at {cycstart}, cycle is {n['cyclen']} ticks long, z ({nzs}) is at {zpos}")
+#    print(n['hist'])
 
 #curnodes[1]['cyclen'] = 3
 

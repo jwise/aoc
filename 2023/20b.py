@@ -63,7 +63,7 @@ def run():
     lorx = 0
 
     # broadcaster
-    pulseq.append(("rc", LOW, None))
+    pulseq.append(("broadcaster", LOW, None))
     while len(pulseq) > 0:
         dest, level, src = pulseq.pop(0)
         
@@ -107,9 +107,7 @@ def run():
         elif mods[mod]["t"] == "&":
             vcdf.change(mods[mod]["var"], tick, 1 if all([mods[mod]["st"][i] == HIGH for i in mods[mod]["st"]]) else 0)
     
-    if lorx >= 1:
-        print(hirx, lorx)
-        ass()
+    print(hirx, lorx)
 
 for tick in range(1,10000000):
     run()

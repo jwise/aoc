@@ -46,6 +46,9 @@ This document may contain spoilers.
 
 14: Simulate some position/velocity pairs.  Find the ASCII art!
 
+16: Find the best route through a maze.  Find all the best routes through
+    the maze!
+
 ===== 2023 =====
 
 ===== 2022 =====

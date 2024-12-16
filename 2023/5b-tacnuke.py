@@ -21,6 +21,7 @@ def extract(s):
     return [int(x) for x in re.findall(r'(-?\d+).?', s)]
 
 d = get_data(year = 2023, day = 5)
+d = open('5.x', 'r').read()
 
 sections = d.split('\n\n')
 
