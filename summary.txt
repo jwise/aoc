@@ -49,6 +49,9 @@ This document may contain spoilers.
 16: Find the best route through a maze.  Find all the best routes through
     the maze!
 
+17: Run a small opcode program.  Figure out what it does and provide a
+    satisfactory input, or, uh, let a sat solver do it for you.
+
 18: Path find through a maze.  Path find through more mazes until you can't
     (or come up with a clever idea, if you feel like it).
 
