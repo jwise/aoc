@@ -46,6 +46,9 @@ This document may contain spoilers.
 
 14: Simulate some position/velocity pairs.  Find the ASCII art!
 
+15: Play Sokoban, but with multiple sliding boxes.  P l a y   t h e   w i d
+    e b o i   S o k o b a n.
+
 16: Find the best route through a maze.  Find all the best routes through
     the maze!
 
