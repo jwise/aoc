@@ -58,6 +58,9 @@ This document may contain spoilers.
 18: Path find through a maze.  Path find through more mazes until you can't
     (or come up with a clever idea, if you feel like it).
 
+19: Glue some prefixes together.  Glue all combinations of prefixes
+    together.
+
 ===== 2023 =====
 
 ===== 2022 =====
