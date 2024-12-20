@@ -61,6 +61,9 @@ This document may contain spoilers.
 19: Glue some prefixes together.  Glue all combinations of prefixes
     together.
 
+20: Routefind through a map, figuring out how many cheats in the middle will
+    meaningfully help.
+
 ===== 2023 =====
 
 ===== 2022 =====
