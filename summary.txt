@@ -64,6 +64,17 @@ This document may contain spoilers.
 20: Routefind through a map, figuring out how many cheats in the middle will
     meaningfully help.
 
+21: Input a code into a keypad that is behind some keypads.  Input a code
+    into a keypad that is behind a lot of keypads.
+
+    *: After a bunch of trivial-seeming problems, this one was enjoyable and
+       meaty.  It was not particularly "annoyingly fidgety", but it was not
+       straightforward and required some thinking about the problem to come
+       up with a good answer.
+
+    ++: I'm not sure if it's upping the ante or downing the ante, but I
+        solved part 1 with z3 first.  It was not how to do it.
+
 ===== 2023 =====
 
 ===== 2022 =====
