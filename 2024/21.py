@@ -115,3 +115,5 @@ for l in d.split('\n'):
     c = extract(l)[0]
     score += c * tsteps
 print(score)
+
+print(movecost.cache_info())

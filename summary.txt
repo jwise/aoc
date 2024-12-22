@@ -75,6 +75,14 @@ This document may contain spoilers.
     ++: I'm not sure if it's upping the ante or downing the ante, but I
         solved part 1 with z3 first.  It was not how to do it.
 
+22: Iterate a LFSR-like thing.  Find an optimal pattern in the output.
+
+    ->||<-: I was bracing myself for part 2 to be "now iterate it
+            20,000,000,000,000 times" or something, which would have been a
+            lot more clever (though not a whole lot harder to implement!)
+            than just another "implement a textually described algorithm"
+            thing.
+
 ===== 2023 =====
 
 ===== 2022 =====
