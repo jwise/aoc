@@ -83,6 +83,8 @@ This document may contain spoilers.
             than just another "implement a textually described algorithm"
             thing.
 
+23: Know what the word "clique" is to describe a graph, and find some.
+
 ===== 2023 =====
 
 ===== 2022 =====
