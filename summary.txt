@@ -85,6 +85,12 @@ This document may contain spoilers.
 
 23: Know what the word "clique" is to describe a graph, and find some.
 
+24: Evaluate a graph of operations.  Perform formal verification and
+    differencing of a graph against a ripple carry adder!
+
+    *: Ripple carry nightmare, moonshine distillery, back road to villainy,
+       military start, I depart with artillery.
+
 ===== 2023 =====
 
 ===== 2022 =====
